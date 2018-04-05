@@ -93,4 +93,8 @@ function startRacing(totalPlayer,trackDist) {
 }
 
 let argv = process.argv
-startRacing(argv[2],argv[3])
+if (argv.length == 2) {
+  console.log('mohon masukkan jumlah player dan panjang lintasan')
+} else {
+  startRacing(argv[2],argv[3])
+}
