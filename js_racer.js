@@ -43,7 +43,7 @@ function print_board(arr_players, lintasan) {
       finish = finished(arr_players[i].position, lintasan);
       if (finish==true) {
         for(let j = i+1; j < arr_players.length; j++){
-          print_line(arr_players[i].name, arr_players[i].position, lintasan)
+          print_line(arr_players[j].name, arr_players[j].position, lintasan)
         }
         return winner(arr_players[i].name)
       }
