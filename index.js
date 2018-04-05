@@ -1,5 +1,5 @@
-
 /*
+
 @ Iswanul Umam - Red Fox
 @ Start Program: $ node index.js 3 30
 */
@@ -21,7 +21,8 @@ function main () {
   let lengthRace = input[1];
   let currentLayer = generateLayer(totalPlayer, lengthRace);
   
-  while (true) {
+  let counter = 0;
+  while (counter < 10) {
     for (let i = 0; i < totalPlayer; i++) {
       delay(50);
       let ramdomDice = dice();
@@ -34,6 +35,7 @@ function main () {
         return `Player ${character[i][1]} won!\n${printLayer(currentLayer)}`;
       }
     }
+    counter++;
   }
 }
 
@@ -83,8 +85,8 @@ function movePlayer(board, player, dice) {
   board[index] = race;
   return board;
 }
-
 // console.log(movePlayer(sampelLayer, '|a', 2));
+
 // ---------------------------------------------------
 
 // @ shake dice value 1 - 6
@@ -120,7 +122,22 @@ function validateInput (input) {
   if (input.length != 2) {
     console.log('Input yang anda masukan salah!\n');
     console.log('Example: $ node [param 1] [param2]');
-    console.log('Example: $ node index.js 5 30\n');
+    console.log('Example: $ node index.js 2 10\n');
     process.exit(0);
   }
 }
+
+// @ check winer player
+// function isWinner (board) {
+//   for (let row of board) {
+//     for (let col of row) {
+//       if (col != '| ') {
+//         return col;
+//       }
+//     }
+//   }
+//   return false;
+// }
+
+// console.log(isWinner([['| ', '| ']])); // false
+// console.log(isWinner([['| ', '|a']])) // |a
