@@ -4,34 +4,10 @@
 
 "use strict";
 
-var argv = process.argv;
-var jumlahPlayer = argv[2];
-var jumlahLintasan = argv[3];
-
-function generate_player(jumlahPlayer, jumlahLintasan) {
-  if (jumlahPlayer < 2) {
-    console.log('Maaf ! Jumlah pemain JSRacer kurang dari 2!');
-  } else if (jumlahLintasan < 15) {
-    console.log('Maaf ! Jumlah panjang lintasan JSRacer kurang dari 15!');
-  } else {
-    var arrPlayer = [];
-    for (var i = 0; i < jumlahPlayer; i++) {
-      var playerObj = {};
-      var char = String.fromCharCode(i + 97);
-      playerObj.name = char;
-      playerObj.posisi = 0;
-      arrPlayer.push(playerObj);
-    }
-  }
-  return arrPlayer;
-}
-
-function play() {
-  var hasil;
-  var finnish = false;
+// ==========Play Mode==========
+function playMode() {
   while (finnish == false) {
-    let arrPlayer = generate_player(jumlahPlayer, jumlahLintasan);
-    for (var i = 0; i < arrPlayer.length; i++) {
+    for (let i = 0; i < arrPlayer.length; i++) {
       arrPlayer[i].posisi = advanced_player(arrPlayer[i].posisi, dice());
       print_board();
       finnish = finished(arrPlayer[i].posisi);
@@ -43,6 +19,20 @@ function play() {
   }
 }
 
+// ==========Inisiasi Player==========
+function generate_player(jumlahPlayer, jumlahLintasan) {
+  let arrPlayer = [];
+  for (let i = 0; i < jumlahPlayer; i++) {
+    let playerObj = {};
+    let char = String.fromCharCode(i + 65);
+    playerObj.name = char;
+    playerObj.posisi = 0;
+    arrPlayer.push(playerObj);
+  }
+  return arrPlayer;
+}
+
+// ==========Print TrackLine==========
 function print_line(player, pos) {
   let arrLine = [];
   for (let i = 0; i <= jumlahLintasan; i++) {
@@ -55,8 +45,8 @@ function print_line(player, pos) {
   return arrLine.join('|');
 }
 
+// ==========Print Board==========
 function print_board() {
-  let arrPlayer = generate_player(jumlahPlayer, jumlahLintasan);
   reset_board();
   for (let i = 0; i < arrPlayer.length; i++) {
     console.log(print_line(arrPlayer[i].name, arrPlayer[i].posisi));
@@ -64,7 +54,7 @@ function print_board() {
   sleep(1000);
 }
 
-
+// ==========Position Player==========
 function advanced_player(posisi, dice) {
   let total = posisi + dice;
   if (total > jumlahLintasan - 1) {
@@ -73,6 +63,7 @@ function advanced_player(posisi, dice) {
   return total;
 }
 
+// ==========Finnish==========
 function finished(posisi) {
   if (posisi === jumlahLintasan - 1) {
     return true;
@@ -81,20 +72,24 @@ function finished(posisi) {
   }
 }
 
+// ==========Display Winner==========
 function winner(player, winner) {
   if (winner === true) {
-    return `Player ${player} is the winner!`;
+    return console.log(`Player ${player} is the winner!`);
   }
 }
 
-function reset_board() {
-  console.log("\x1B[2J");
-}
-
+// ==========Roll Dice==========
 function dice() {
   return Math.floor(Math.random() * 6) + 1;
 }
 
+// ==========Reset Board==========
+function reset_board() {
+  console.log("\x1B[2J");
+}
+
+// ==========Time Sleep==========
 function sleep(milliseconds) {
   let start = new Date().getTime();
   for (let i = 0; i < 1e7; i++) {
@@ -104,7 +99,21 @@ function sleep(milliseconds) {
   }
 }
 
-let player = generate_player(argv[2], argv[3]);
+// ==========Input Data Game==========
+
+var argv = process.argv;
+var jumlahPlayer = argv[2];
+var jumlahLintasan = argv[3];
+var hasil;
+var finnish = false;
+var arrPlayer = generate_player(jumlahPlayer, jumlahLintasan);
+
+if (jumlahPlayer < 2) {
+  return console.log('Maaf ! Jumlah pemain JSRacer kurang dari 2!');
+} else if (jumlahLintasan < 15) {
+  return console.log('Maaf ! Jumlah panjang lintasan JSRacer kurang dari 15!');
+}
+
+playMode();
 print_board();
-play();
-console.log(winner(hasil, finnish));
+winner(hasil, finnish);
