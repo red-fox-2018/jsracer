@@ -3,7 +3,7 @@
 let arr = process.argv.splice(2);
 if (arr.length === 0) {
     console.log('input panjang lintasan dan jumlah pemain')
-    // break;
+    sleep(1000)
 }
 let lintasan = arr[0];
 let playerCount = arr[1];
@@ -18,7 +18,7 @@ function createPlayer(player) {
 }
 
 function dice() {
-    let move = Math.floor(Math.random() * 6) + 1
+    let move = Math.ceil(Math.random() * 6)
     return move
 }
 
@@ -31,25 +31,22 @@ function sleep(milliseconds) {
     }
 }
 
-function print_board(player, lintasan) {
+function print_board(player) {
     let players = createPlayer(player)
-    let akhir = false;
     for (let i in players) {
-        print_line(players[i].name, 0, lintasan);
+        print_line(players[i].name, 0);
     }
     sleep(1000)
     reset_board()
 
-    while (akhir == false) {
+    while (true) {
         for (let i = 0; i < players.length; i++) {
-            players[i].position = players[i].position + dice();
-            if (players[i].position >= lintasan - 1) {
-                players[i].position = lintasan - 1;
-            }
-            print_line(players[i].name, players[i].position, lintasan);
-            if (finished(players[i].position)) {
+            let pos = advanced_player(players[i].position);
+            print_line(players[i].name, pos);
+            players[i].position = pos
+            if (finished(pos)) {
                 for (let j = i+1; j < players.length; j++) {
-                    print_line(players[j].name, players[j].position, lintasan);
+                    print_line(players[j].name, players[j].position);
                 }
                 return players[i].name;
             }
@@ -59,7 +56,7 @@ function print_board(player, lintasan) {
     }
 }
 
-function print_line(player, pos, lintasan) {
+function print_line(player, pos) {
     let line = [];
 
     for (let i = 0; i < lintasan; i++) {
@@ -81,10 +78,15 @@ function finished(position) {
 }
 
 function winner() {
-   return 'Winner is ' + print_board(playerCount, lintasan)
+   return 'Winner is ' + print_board(playerCount)
 }
 
-function advanced_player(player) {
+function advanced_player(playerPos) {
+    playerPos += dice();
+    if (playerPos >= lintasan - 1) {
+        playerPos = lintasan - 1;
+    }
+    return playerPos
 }
 
 function reset_board() {
