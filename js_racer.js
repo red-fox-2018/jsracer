@@ -37,7 +37,7 @@ function print_board(pos,players,line) {
         }  
         console.log(track)
       } 
-      sleep(500)
+      sleep(700)
       reset_board()
     } 
   } 
@@ -80,8 +80,3 @@ if (announce.length==2){
   var board = print_board(position, nilai[0], nilai[1])
   board
 }
-
-
-// console.log(print_board(nilai[0], nilai[1]))
-// console.log(print_board(nilai[0], nilai[1]))
-// console.log(print_board(nilai[0], nilai[1]))
