@@ -8,11 +8,11 @@ var players = generate_player(total_player);
 var playerWon;
 
 if (total_player < 2) {
-  return console.log('Jumlah pemain minimal 2');
+  return console.log(chalk.red('Jumlah pemain minimal 2'));
 }
 
 if (line_length < 15) {
-  return console.log('Panjang lintasan minimal 15');
+  return console.log(chalk.red('Panjang lintasan minimal 15'));
 }
 
 function dice() {
