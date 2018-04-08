@@ -1,5 +1,7 @@
 "use strict"
 const argv = process.argv;
+const Table = require('cli-table');
+const chalk = require('chalk');
 var total_player = parseInt(argv[2]);
 var line_length = parseInt(argv[3]);
 var players = generate_player(total_player);
@@ -30,9 +32,20 @@ function sleep(milliseconds) {
 
 function print_board() {
   reset_board();
-  for (let i = 0; i < players.length; i++) {
-    console.log(print_line(players[i].name, players[i].position));
+
+  let colWidth = [];
+  for (let n = 0; n < line_length; n++) {
+    colWidth.push(3);
   }
+
+  let table = new Table({
+    colWidths: colWidth
+  });
+
+  for (let i = 0; i < players.length; i++) {
+    table.push(print_line(chalk.blue(players[i].name), players[i].position));
+  }
+  console.log(table.toString());
   sleep(1000);
 }
 
@@ -65,7 +78,7 @@ function print_line(player, pos) {
     }
   }
 
-  return line.join('|');
+  return line;
 }
 
 function race() {
@@ -103,7 +116,7 @@ function finished(position) {
 }
 
 function winner() {
-  console.log(`Player ${playerWon} is the winner`);
+  console.log(`Player ${chalk.green(playerWon)} is the winner`);
 }
 
 function reset_board() {
